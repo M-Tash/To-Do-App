@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/home/settings/theme_bottom_sheet.dart';
+
 import '../../my_theme.dart';
 import '../../providers/app_config_provider.dart';
 import 'language_bottom_sheet.dart';
@@ -55,7 +56,7 @@ class _SettingsTapState extends State<SettingsTap> {
                   ),
                 ),
                 onTap: () {
-                  showLanguageBottemSheet();
+                  showLanguageBottomSheet();
                 },
               ),
               SizedBox(
@@ -93,7 +94,7 @@ class _SettingsTapState extends State<SettingsTap> {
                   ),
                 ),
                 onTap: () {
-                  showThemeBottemSheet();
+                  showThemeBottomSheet();
                 },
               ),
             ],
@@ -101,14 +102,14 @@ class _SettingsTapState extends State<SettingsTap> {
         ));
   }
 
-  void showLanguageBottemSheet() {
+  void showLanguageBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (context) => LanguageBottomSheet(),
     );
   }
 
-  void showThemeBottemSheet() {
+  void showThemeBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (context) => ThemeBottomSheet(),

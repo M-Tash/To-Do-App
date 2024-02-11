@@ -7,5 +7,17 @@
   "arabic": "Arabic",
   "theme": "Mode",
   "light": "Light",
-  "dark": "Dark"
+  "dark": "Dark",
+  "today": "Today",
+  "chosen_day": "Chosen Day",
+  "add_new_task": "Add New Task",
+  "edit_task": "Edit Task",
+  "task_temp": "Study Flutter",
+  "task_title_hint": "Type Your Task Title",
+  "task_details_hint": "Type Your Task details",
+  "select_time": "Select Time",
+  "error_task_title": "Please enter task title",
+  "error_task_details": "Please enter task details",
+  "delete": "Delete",
+  "save_changes": "Save Changes"
 }

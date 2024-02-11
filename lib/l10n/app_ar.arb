@@ -7,5 +7,17 @@
   "arabic": "العربية",
   "theme": "النمط",
   "light": "نهاري",
-  "dark": "ليلي"
+  "dark": "ليلي",
+  "today": "اليوم",
+  "chosen_day": "اليوم المختار",
+  "add_new_task": "إضافة مهمة جديدة",
+  "edit_task": "تعديل المهمة",
+  "task_temp": "مذاكرة فلاتر",
+  "task_title_hint": "إكتب عنوان مهمتك",
+  "task_details_hint": "إكتب تفاصيل مهمتك",
+  "select_time": "إختار الوقت",
+  "error_task_title": "الرجاء إدخال عنوان المهمة",
+  "error_task_details": "الرجاء إدخال تفاصيل المهمة",
+  "delete": "حذف",
+  "save_changes": "حفظ التغيرات"
 }

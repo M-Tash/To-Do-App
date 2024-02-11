@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
+import 'home/list_files/task_edit_screen.dart';
 import 'my_theme.dart';
 
 void main() {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
       routes: {
-        HomeScreen.routeName:(context)=>HomeScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
+        TaskScreen.routeName: (context) => TaskScreen(),
       },
       theme: MyTheme.lightMode,
       themeMode: provider.appTheme,
