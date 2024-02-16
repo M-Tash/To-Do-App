@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/firebase_utils.dart';
 
 import '../../../my_theme.dart';
 import '../../../providers/app_config_provider.dart';
+import '../../model/task.dart';
 
 class TaskBottomSheet extends StatefulWidget {
   @override
@@ -13,6 +15,9 @@ class TaskBottomSheet extends StatefulWidget {
 class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   final _formKey = GlobalKey<FormState>();
+  var selectedDate = DateTime.now();
+  String title = '';
+  String description = '';
 
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
@@ -38,6 +43,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 height: 20,
               ),
               TextFormField(
+                style: Theme.of(context).textTheme.displaySmall,
+                onChanged: (text) {
+                  title = text;
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)!.error_task_title;
@@ -58,6 +67,11 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 height: 10,
               ),
               TextFormField(
+                style: Theme.of(context).textTheme.displaySmall,
+                onChanged: (text) {
+                  description = text;
+                },
+                maxLines: 4,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)!.error_task_details;
@@ -86,9 +100,12 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 height: 20,
               ),
               Center(
-                child: Text(
-                  "11-2-2024",
-                  style: Theme.of(context).textTheme.labelMedium,
+                child: InkWell(
+                  onTap: showCalendar,
+                  child: Text(
+                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                 ),
               ),
               SizedBox(
@@ -102,9 +119,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: MyTheme.primaryColor),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // TODO submit
-                    }
+                    addTask();
                   },
                   child: Icon(
                     Icons.check_sharp,
@@ -118,5 +133,35 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         ),
       ),
     );
+  }
+
+  void showCalendar() async {
+    var chosenDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 365)));
+    if (chosenDate != null) {
+      selectedDate = chosenDate;
+      setState(() {});
+    }
+  }
+
+  void addTask() {
+    if (_formKey.currentState!.validate()) {
+      Task task =
+          Task(title: title, description: description, dateTime: selectedDate);
+      FirebaseUtils.addTaskToFireStore(task)
+          .timeout(Duration(milliseconds: 500), onTimeout: () {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: MyTheme.primaryColor,
+            content: Center(
+                child: Text(
+              AppLocalizations.of(context)!.task_added_successfully,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ))));
+        Navigator.pop(context);
+      });
+    }
   }
 }

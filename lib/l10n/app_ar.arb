@@ -19,5 +19,7 @@
   "error_task_title": "الرجاء إدخال عنوان المهمة",
   "error_task_details": "الرجاء إدخال تفاصيل المهمة",
   "delete": "حذف",
-  "save_changes": "حفظ التغيرات"
+  "save_changes": "حفظ التغيرات",
+  "edit": "تعديل",
+  "task_added_successfully": "تمت إضافة المهمة بنجاح"
 }

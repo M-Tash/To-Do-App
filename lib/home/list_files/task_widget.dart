@@ -35,6 +35,22 @@ class TaskWidget extends StatelessWidget {
                 ),
               ],
             ),
+            endActionPane: ActionPane(
+              extentRatio: 0.3,
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    Navigator.pushNamed(context, TaskScreen.routeName);
+                  },
+                  backgroundColor: MyTheme.primaryColor,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: AppLocalizations.of(context)!.edit,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ],
+            ),
             child: Container(
               decoration: BoxDecoration(
                   color:
@@ -58,14 +74,9 @@ class TaskWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height * 0.04),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, TaskScreen.routeName);
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.task_temp,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
+                        child: Text(
+                          AppLocalizations.of(context)!.task_temp,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
                       Padding(

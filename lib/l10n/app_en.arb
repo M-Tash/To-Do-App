@@ -19,5 +19,7 @@
   "error_task_title": "Please enter task title",
   "error_task_details": "Please enter task details",
   "delete": "Delete",
-  "save_changes": "Save Changes"
+  "save_changes": "Save Changes",
+  "edit": "Edit",
+  "task_added_successfully": "Task Added Successfully"
 }

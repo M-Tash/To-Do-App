@@ -4,9 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/my_theme.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
   static const String routeName = 'TaskScreen';
+
+  @override
+  State<TaskScreen> createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> {
   final _formKey = GlobalKey<FormState>();
+  var selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +46,14 @@ class TaskScreen extends StatelessWidget {
                 children: [
                   Center(
                       child: Text(
-                    AppLocalizations.of(context)!.edit_task,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  )),
+                        AppLocalizations.of(context)!.edit_task,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      )),
                   SizedBox(
                     height: 20,
                   ),
                   TextFormField(
+                    style: Theme.of(context).textTheme.displaySmall,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.error_task_title;
@@ -66,6 +74,8 @@ class TaskScreen extends StatelessWidget {
                     height: 10,
                   ),
                   TextFormField(
+                    style: Theme.of(context).textTheme.displaySmall,
+                    maxLines: 4,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.error_task_details;
@@ -81,7 +91,7 @@ class TaskScreen extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                         hintText:
-                            AppLocalizations.of(context)!.task_details_hint,
+                        AppLocalizations.of(context)!.task_details_hint,
                         hintStyle: Theme.of(context).textTheme.labelMedium),
                   ),
                   SizedBox(
@@ -95,9 +105,12 @@ class TaskScreen extends StatelessWidget {
                     height: 20,
                   ),
                   Center(
-                    child: Text(
-                      "11-2-2024",
-                      style: Theme.of(context).textTheme.labelMedium,
+                    child: InkWell(
+                      onTap: showCalendar,
+                      child: Text(
+                        "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -111,9 +124,7 @@ class TaskScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor: MyTheme.primaryColor),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // TODO submit
-                        }
+                        if (_formKey.currentState!.validate()) {}
                       },
                       child: Text(AppLocalizations.of(context)!.save_changes,
                           style: Theme.of(context)
@@ -129,5 +140,17 @@ class TaskScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showCalendar() async {
+    var chosenDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 365)));
+    if (chosenDate != null) {
+      selectedDate = chosenDate;
+      setState(() {});
+    }
   }
 }

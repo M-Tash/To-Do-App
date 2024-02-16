@@ -51,7 +51,7 @@ class MyTheme {
           color: blackColor,
         ),
         displaySmall: TextStyle(
-          fontSize: 15,
+          fontSize: 18,
           fontWeight: FontWeight.w400,
           color: blackColor,
         ),
@@ -79,6 +79,11 @@ class MyTheme {
           fontSize: 15,
           fontWeight: FontWeight.bold,
           color: greyColor,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ));
   static ThemeData darkMode = ThemeData(
@@ -122,7 +127,7 @@ class MyTheme {
           color: Colors.white,
         ),
         displaySmall: TextStyle(
-          fontSize: 15,
+          fontSize: 18,
           fontWeight: FontWeight.w400,
           color: Colors.white,
         ),
@@ -150,6 +155,11 @@ class MyTheme {
           fontSize: 15,
           fontWeight: FontWeight.bold,
           color: greyColor,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ));
 }
