@@ -97,6 +97,9 @@ class _SettingsTapState extends State<SettingsTap> {
                   showThemeBottomSheet();
                 },
               ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ));

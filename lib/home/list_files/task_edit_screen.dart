@@ -14,10 +14,15 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   final _formKey = GlobalKey<FormState>();
   var selectedDate = DateTime.now();
+  String title = '';
+  String description = '';
+  String newTitle = '';
+  String newDescription = '';
+  late AppConfigProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<AppConfigProvider>(context);
+    provider = Provider.of<AppConfigProvider>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -53,6 +58,9 @@ class _TaskScreenState extends State<TaskScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    onChanged: (text) {
+                      newTitle = text;
+                    },
                     style: Theme.of(context).textTheme.displaySmall,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -74,8 +82,11 @@ class _TaskScreenState extends State<TaskScreen> {
                     height: 10,
                   ),
                   TextFormField(
+                    onChanged: (text) {
+                      newDescription = text;
+                    },
                     style: Theme.of(context).textTheme.displaySmall,
-                    maxLines: 4,
+                    maxLines: 2,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.error_task_details;
@@ -123,9 +134,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor: MyTheme.primaryColor),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
-                      },
+                      onPressed: () {},
                       child: Text(AppLocalizations.of(context)!.save_changes,
                           style: Theme.of(context)
                               .textTheme

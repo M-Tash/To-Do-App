@@ -21,5 +21,17 @@
   "delete": "حذف",
   "save_changes": "حفظ التغيرات",
   "edit": "تعديل",
-  "task_added_successfully": "تمت إضافة المهمة بنجاح"
+  "task_added_successfully": "تمت إضافة المهمة بنجاح",
+  "task_deleted_successfully": "تم حذف المهمة بنجاح",
+  "welcome_back": "مرحبًا بعودتك !",
+  "email_hint": "البريد الإلكتروني",
+  "password_hint": "كلمة السر",
+  "error_email": "يرجى إدخال بريد إلكتروني صالح",
+  "error_password": "الرجاء إدخال كلمة السر",
+  "forgot_password": "نسيت كلمة السر ؟",
+  "login": "تسجيل الدخول",
+  "create_account": "أو إنشاء حساب ",
+  "create_new_account": "إنشاء حساب",
+  "first_name_hint": "الإسم الأول",
+  "first_name_error": "يرجى إدخال الإسم الأول"
 }

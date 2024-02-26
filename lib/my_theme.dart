@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   static Color primaryColor = Color(0xff5D9CEC);
+  static Color loginColor = Color(0xff3598DB);
   static Color primaryDarkColor = Color(0xff060E1E);
   static Color blackColor = Color(0xff141922);
   static Color greyColor = Color(0xffC8C9CB);
@@ -66,8 +67,8 @@ class MyTheme {
           color: blackColor,
         ),
         labelSmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
           color: blackColor,
         ),
         labelLarge: TextStyle(
@@ -142,8 +143,8 @@ class MyTheme {
           color: Colors.white,
         ),
         labelSmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
           color: Colors.white,
         ),
         labelLarge: TextStyle(

@@ -22,18 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
     var provider = Provider.of<AppConfigProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(toolbarHeight: MediaQuery.of(context).size.height*0.15,
-        title: Text(AppLocalizations.of(context)!.app_title,
-          style: Theme.of(context).textTheme.titleLarge,),
-
-
-
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+            color: provider.isDarkMode() ? MyTheme.blackColor : Colors.white),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.15,
+        title: Text(
+          AppLocalizations.of(context)!.app_title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
-
-      bottomNavigationBar:
-
-          BottomAppBar(  color: provider.isDarkMode()?
-              MyTheme.blackColor
+      bottomNavigationBar: BottomAppBar(
+        color: provider.isDarkMode() ? MyTheme.blackColor
               :Colors.white
             ,padding: EdgeInsets.all(0.001),
             shape: CircularNotchedRectangle(),

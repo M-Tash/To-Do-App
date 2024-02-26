@@ -21,5 +21,17 @@
   "delete": "Delete",
   "save_changes": "Save Changes",
   "edit": "Edit",
-  "task_added_successfully": "Task Added Successfully"
+  "task_added_successfully": "Task Added Successfully",
+  "task_deleted_successfully": "Task Deleted Successfully",
+  "welcome_back": "Welcome Back !",
+  "email_hint": "Email Address",
+  "password_hint": "Password",
+  "error_email": "Please enter a valid email",
+  "error_password": "Please enter password",
+  "forgot_password": "Forgot Password ?",
+  "login": "Login",
+  "create_account": "Or Create My Account",
+  "create_new_account": "Create Account",
+  "first_name_hint": "First Name",
+  "first_name_error": "Please enter first name"
 }

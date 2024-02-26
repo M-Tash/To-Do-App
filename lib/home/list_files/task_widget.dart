@@ -3,16 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home/list_files/task_edit_screen.dart';
 
+import '../../model/task.dart';
 import '../../my_theme.dart';
 import '../../providers/app_config_provider.dart';
 
-class TaskWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var provider = Provider.of<AppConfigProvider>(context);
+class TaskWidget extends StatefulWidget {
+  Task task;
 
+  TaskWidget({required this.task});
+
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  @override
+  late AppConfigProvider provider;
+
+  bool istaskDone = false;
+
+  Widget build(BuildContext context) {
+    provider = Provider.of<AppConfigProvider>(context);
     return Padding(
       padding: EdgeInsets.only(top: 15),
       child: Row(
@@ -26,6 +40,7 @@ class TaskWidget extends StatelessWidget {
                 SlidableAction(
                   onPressed: (context) {
                     //delete
+                    deleteTaskWidget();
                   },
                   backgroundColor: MyTheme.redColor,
                   foregroundColor: Colors.white,
@@ -59,64 +74,51 @@ class TaskWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.15,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     margin: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: MyTheme.primaryColor,
+                        color: istaskDone == true
+                            ? Colors.green
+                            : MyTheme.primaryColor,
                         borderRadius: BorderRadius.circular(15)),
                     width: MediaQuery.of(context).size.width * 0.015,
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.04),
-                        child: Text(
-                          AppLocalizations.of(context)!.task_temp,
-                          style: Theme.of(context).textTheme.titleMedium,
+                  Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.task.title ?? '',
+                          style: istaskDone == true
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: Colors.green)
+                              : Theme.of(context).textTheme.titleMedium,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.015),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.watch_later_outlined,
-                                color: provider.isDarkMode()
-                                    ? Colors.white
-                                    : MyTheme.darkGreyColor,
-                                size: 16,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              child: Text(
-                                '10:30 ',
-                                style: Theme.of(context).textTheme.labelSmall,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                        Text(widget.task.description ?? '',
+                            style: Theme.of(context).textTheme.labelSmall),
+                      ],
+                    ),
                   ),
-                  GestureDetector(
-                      onTap: () {},
+                  Spacer(),
+                  InkWell(
+                      onTap: () {
+                        istaskDone = true;
+                        setState(() {});
+                      },
                       child: Container(
                         margin: EdgeInsets.all(40),
                         width: MediaQuery.of(context).size.width * 0.17,
                         height: MediaQuery.of(context).size.height * 0.045,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: MyTheme.primaryColor),
+                            color: istaskDone == true
+                                ? Colors.green
+                                : MyTheme.primaryColor),
                         child: Icon(
                           CupertinoIcons.checkmark_alt,
                           color: Colors.white,
@@ -130,5 +132,19 @@ class TaskWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void deleteTaskWidget() {
+    FirebaseUtils.deleteTaskFromFireStore(widget.task)
+        .timeout(Duration(milliseconds: 250), onTimeout: () {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: MyTheme.primaryColor,
+          content: Center(
+              child: Text(
+            AppLocalizations.of(context)!.task_deleted_successfully,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ))));
+      provider.getAllTasksFromFireStore();
+    });
   }
 }

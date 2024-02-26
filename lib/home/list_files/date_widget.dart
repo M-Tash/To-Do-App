@@ -69,11 +69,11 @@ class _EasyInfiniteDateTimeLineExampleState
           locale: provider.appLanguage,
           controller: _controller,
           firstDate: DateTime(2024),
-          focusDate: _focusDate,
+          focusDate: provider.selectedDate,
           lastDate: DateTime(2026, 12, 31),
           onDateChange: (selectedDate) {
             setState(() {
-              _focusDate = selectedDate;
+              provider.changeSelectedDate(selectedDate);
             });
           },
         ),

@@ -18,9 +18,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   var selectedDate = DateTime.now();
   String title = '';
   String description = '';
+  late AppConfigProvider provider;
 
   Widget build(BuildContext context) {
-    var provider = Provider.of<AppConfigProvider>(context);
+    provider = Provider.of<AppConfigProvider>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
       decoration: BoxDecoration(
@@ -71,7 +72,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 onChanged: (text) {
                   description = text;
                 },
-                maxLines: 4,
+                maxLines: 2,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return AppLocalizations.of(context)!.error_task_details;
@@ -152,7 +153,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
       Task task =
           Task(title: title, description: description, dateTime: selectedDate);
       FirebaseUtils.addTaskToFireStore(task)
-          .timeout(Duration(milliseconds: 500), onTimeout: () {
+          .timeout(Duration(milliseconds: 400), onTimeout: () {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyTheme.primaryColor,
             content: Center(
@@ -160,6 +161,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               AppLocalizations.of(context)!.task_added_successfully,
               style: Theme.of(context).textTheme.bodyLarge,
             ))));
+        provider.getAllTasksFromFireStore();
         Navigator.pop(context);
       });
     }
