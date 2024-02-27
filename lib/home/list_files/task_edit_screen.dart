@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/my_theme.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
@@ -23,7 +24,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppConfigProvider>(context);
-
+    var args = ModalRoute.of(context)?.settings.arguments as Arguments;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -58,6 +59,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     height: 20,
                   ),
                   TextFormField(
+                    initialValue: args.title,
                     onChanged: (text) {
                       newTitle = text;
                     },
@@ -82,6 +84,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     height: 10,
                   ),
                   TextFormField(
+                    initialValue: args.description,
                     onChanged: (text) {
                       newDescription = text;
                     },
@@ -119,7 +122,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     child: InkWell(
                       onTap: showCalendar,
                       child: Text(
-                        "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                        "${args.selectedDate?.day}/${args.selectedDate?.month}/${args.selectedDate?.year}",
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
@@ -134,7 +137,28 @@ class _TaskScreenState extends State<TaskScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor: MyTheme.primaryColor),
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseUtils.updateTaskInFireStore(
+                                id: args.id,
+                                newTitle: newTitle,
+                                newDescription: newDescription,
+                                newDate: selectedDate,
+                                newIsDone: args.isDone)
+                            .then(
+                          (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: MyTheme.primaryColor,
+                                content: Center(
+                                    child: Text(
+                                  AppLocalizations.of(context)!
+                                      .task_edited_successfully,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ))));
+                            provider.getAllTasksFromFireStore();
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
                       child: Text(AppLocalizations.of(context)!.save_changes,
                           style: Theme.of(context)
                               .textTheme
@@ -162,4 +186,19 @@ class _TaskScreenState extends State<TaskScreen> {
       setState(() {});
     }
   }
+}
+
+class Arguments {
+  String? id;
+  String? title;
+  String? description;
+  DateTime? selectedDate;
+  bool? isDone;
+
+  Arguments(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.selectedDate,
+      required this.isDone});
 }

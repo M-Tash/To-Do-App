@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_app/model/task.dart';
+
 class FirebaseUtils {
   static CollectionReference<Task> getTasksCollection() {
     return FirebaseFirestore.instance
@@ -22,9 +23,18 @@ class FirebaseUtils {
     return getTasksCollection().doc(task.id).delete();
   }
 
-  static Future<void> updateTaskInFireStore(Task updatedTask) async {
-    await getTasksCollection()
-        .doc(updatedTask.id)
-        .update(updatedTask.toFireStore());
+  static Future<void> updateTaskInFireStore({
+    required String? id,
+    required String newTitle,
+    required String newDescription,
+    required DateTime newDate,
+    required bool? newIsDone,
+  }) async {
+    await getTasksCollection().doc(id).update({
+      'title': newTitle,
+      'description': newDescription,
+      'dateTime': newDate.millisecondsSinceEpoch,
+      'isDone': newIsDone,
+    });
   }
 }

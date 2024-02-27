@@ -1,12 +1,12 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/create_account_screen.dart';
+import 'package:todo_app/auth/register/register_screen.dart';
 import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
-import 'my_theme.dart';
+import '../../my_theme.dart';
+import '../register/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login_screen';
@@ -17,9 +17,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
-  String email = '';
-  String password = '';
-  bool passwordVisible = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(250),
+            preferredSize: Size.fromHeight(220),
             child: AppBar(
               automaticallyImplyLeading: false,
               centerTitle: true,
@@ -71,70 +70,44 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            TextFormField(
-                              style: Theme.of(context).textTheme.displaySmall,
-                              onChanged: (text) {
-                                email = text;
-                              },
-                              validator: (value) =>
-                                  EmailValidator.validate(email)
-                                      ? null
-                                      : AppLocalizations.of(context)!
-                                          .error_email,
-                              decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyTheme.primaryColor),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyTheme.primaryColor),
-                                  ),
-                                  hintText:
-                                      AppLocalizations.of(context)!.email_hint,
-                                  hintStyle:
-                                      Theme.of(context).textTheme.labelMedium),
-                            ),
-                            SizedBox(height: 20),
-                            TextFormField(
-                              obscureText: !passwordVisible,
-                              style: Theme.of(context).textTheme.displaySmall,
-                              onChanged: (text) {
-                                password = text;
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
+                            CustomTextFormField(
+                              obscureText: false,
+                              label: AppLocalizations.of(context)!.email_label,
+                              controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (text) {
+                                if (text == null || text.trim().isEmpty) {
                                   return AppLocalizations.of(context)!
-                                      .error_password;
+                                      .error_email;
+                                }
+
+                                bool emailValid = RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(text);
+                                if (!emailValid) {
+                                  return AppLocalizations.of(context)!
+                                      .error_valid_email;
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        passwordVisible = !passwordVisible;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: MyTheme.loginColor,
-                                    ),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyTheme.loginColor),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: MyTheme.loginColor),
-                                  ),
-                                  hintText: AppLocalizations.of(context)!
-                                      .password_hint,
-                                  hintStyle:
-                                      Theme.of(context).textTheme.labelMedium),
+                            ),
+                            SizedBox(height: 20),
+                            CustomTextFormField(
+                              icon: true,
+                              label:
+                                  AppLocalizations.of(context)!.password_label,
+                              controller: passwordController,
+                              validator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return AppLocalizations.of(context)!
+                                      .error_password;
+                                }
+                                if (text.length < 6) {
+                                  return AppLocalizations.of(context)!
+                                      .error_valid_password;
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -200,8 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, CreateAccountScreen.routeName);
+                      Navigator.pushNamed(context, RegisterScreen.routeName);
                     },
                     child: Text(
                       AppLocalizations.of(context)!.create_account,

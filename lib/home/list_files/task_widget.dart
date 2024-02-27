@@ -56,7 +56,13 @@ class _TaskWidgetState extends State<TaskWidget> {
               children: [
                 SlidableAction(
                   onPressed: (context) {
-                    Navigator.pushNamed(context, TaskScreen.routeName);
+                    Navigator.pushNamed(context, TaskScreen.routeName,
+                        arguments: Arguments(
+                            id: widget.task.id,
+                            title: widget.task.title,
+                            description: widget.task.description,
+                            selectedDate: widget.task.dateTime,
+                            isDone: widget.task.isDone));
                   },
                   backgroundColor: MyTheme.primaryColor,
                   foregroundColor: Colors.white,
@@ -135,16 +141,17 @@ class _TaskWidgetState extends State<TaskWidget> {
   }
 
   void deleteTaskWidget() {
-    FirebaseUtils.deleteTaskFromFireStore(widget.task)
-        .timeout(Duration(milliseconds: 250), onTimeout: () {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: MyTheme.primaryColor,
-          content: Center(
-              child: Text(
-            AppLocalizations.of(context)!.task_deleted_successfully,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ))));
-      provider.getAllTasksFromFireStore();
-    });
+    FirebaseUtils.deleteTaskFromFireStore(widget.task).then(
+      (value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: MyTheme.primaryColor,
+            content: Center(
+                child: Text(
+              AppLocalizations.of(context)!.task_deleted_successfully,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ))));
+        provider.getAllTasksFromFireStore();
+      },
+    );
   }
 }

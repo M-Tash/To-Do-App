@@ -152,18 +152,19 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     if (_formKey.currentState!.validate()) {
       Task task =
           Task(title: title, description: description, dateTime: selectedDate);
-      FirebaseUtils.addTaskToFireStore(task)
-          .timeout(Duration(milliseconds: 400), onTimeout: () {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: MyTheme.primaryColor,
-            content: Center(
-                child: Text(
-              AppLocalizations.of(context)!.task_added_successfully,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ))));
-        provider.getAllTasksFromFireStore();
-        Navigator.pop(context);
-      });
+      FirebaseUtils.addTaskToFireStore(task).then(
+        (value) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: MyTheme.primaryColor,
+              content: Center(
+                  child: Text(
+                AppLocalizations.of(context)!.task_added_successfully,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ))));
+          provider.getAllTasksFromFireStore();
+          Navigator.pop(context);
+        },
+      );
     }
   }
 }

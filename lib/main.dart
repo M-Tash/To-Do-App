@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/create_account_screen.dart';
+import 'package:todo_app/auth/login/login_screen.dart';
+import 'package:todo_app/auth/register/register_screen.dart';
 import 'package:todo_app/home_screen.dart';
-import 'package:todo_app/login_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
 import 'home/list_files/task_edit_screen.dart';
@@ -16,7 +16,7 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  await FirebaseFirestore.instance.disableNetwork();
+  FirebaseFirestore.instance.enableNetwork();
   runApp(ChangeNotifierProvider(
       create: (context) => AppConfigProvider(), child: MyApp()));
 }
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => HomeScreen(),
         TaskScreen.routeName: (context) => TaskScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
-        CreateAccountScreen.routeName: (context) => CreateAccountScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
       },
       theme: MyTheme.lightMode,
       themeMode: provider.appTheme,
