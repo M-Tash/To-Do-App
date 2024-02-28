@@ -218,7 +218,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void register() async {
     if (_formKey.currentState!.validate()) {
       DialogUtils.showLoading(
-          context: context, message: 'Loading...', isDismissible: false);
+          context: context,
+          message: AppLocalizations.of(context)!.loading,
+          isDismissible: false);
 
       try {
         final credential =
@@ -233,22 +235,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await FirebaseUtils.addUserToFireStore(myUser);
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.updateUser(myUser);
-
         DialogUtils.hideLoading(context: context);
         DialogUtils.showSnackBar(
-            context: context, message: 'You have successfully registered');
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+            context: context,
+            message: AppLocalizations.of(context)!.successfully_registered);
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showSnackBar(
-              context: context, message: 'The password provided is too weak');
+              context: context,
+              message: AppLocalizations.of(context)!.weak_password);
           print('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showSnackBar(
               context: context,
-              message: 'The account already exists for that email');
+              message: AppLocalizations.of(context)!.account_already_exists);
           print('The account already exists for that email.');
         }
       } catch (e) {

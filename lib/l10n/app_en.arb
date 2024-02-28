@@ -38,5 +38,13 @@
   "create_account": "Or Create My Account",
   "create_new_account": "Create Account",
   "user_name_label": "User Name",
-  "error_user_name": "Please enter a valid username"
+  "error_user_name": "Please enter a valid username",
+  "loading": "Loading...",
+  "successfully_registered": "You Have Successfully Registered",
+  "login_successful": "Login Successful",
+  "weak_password": "Weak Password",
+  "wrong_password": "Wrong password",
+  "password_too_weak": "The password is too weak",
+  "account_already_exists": "The account already exists",
+  "invalid_credential": "Incorrect Email Or Password"
 }

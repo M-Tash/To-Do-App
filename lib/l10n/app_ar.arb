@@ -38,5 +38,13 @@
   "create_account": "أو إنشاء حساب ",
   "create_new_account": "إنشاء حساب",
   "user_name_label": "إسم المستخدم",
-  "error_user_name": "يرجى إدخال إسم المستخدم"
+  "error_user_name": "يرجى إدخال إسم المستخدم",
+  "loading": "تحميل...",
+  "you_have_successfully_registered": "لقد قمت بالتسجيل بنجاح",
+  "login_successful": "تم تسجيل الدخول بنجاح",
+  "weak_password": "كلمة سر ضعيفة",
+  "wrong_password": "كلمة سر خاطئة",
+  "password_too_weak": "كلمة السر ضعيفة للغاية",
+  "account_already_exists": "الحساب موجود بالفعل",
+  "invalid_credential": "بريد إلكتروني أو كلمة سر غير صحيحة"
 }

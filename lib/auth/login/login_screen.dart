@@ -197,7 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() async {
     if (_formKey.currentState!.validate()) {
       DialogUtils.showLoading(
-          context: context, message: 'Loading...', isDismissible: false);
+          context: context,
+          message: AppLocalizations.of(context)!.loading,
+          isDismissible: false);
       try {
         final credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
@@ -210,18 +212,23 @@ class _LoginScreenState extends State<LoginScreen> {
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.updateUser(user);
         DialogUtils.hideLoading(context: context);
-        DialogUtils.showSnackBar(context: context, message: 'login successful');
+        DialogUtils.showSnackBar(
+            context: context,
+            message: AppLocalizations.of(context)!.login_successful);
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'Invalid Credential') {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showSnackBar(
-              context: context, message: 'Invalid Credential');
+              context: context,
+              message: AppLocalizations.of(context)!.invalid_credential);
           print(
               'The supplied auth credential is incorrect, malformed or has expired');
         } else if (e.code == 'wrong-password') {
           DialogUtils.hideLoading(context: context);
-          DialogUtils.showSnackBar(context: context, message: 'Wrong password');
+          DialogUtils.showSnackBar(
+              context: context,
+              message: AppLocalizations.of(context)!.wrong_password);
           print('Wrong password provided for that user.');
         }
       } catch (e) {
