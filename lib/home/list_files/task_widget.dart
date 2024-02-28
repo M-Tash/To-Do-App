@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home/list_files/task_edit_screen.dart';
+import 'package:todo_app/providers/user_provider.dart';
 
 import '../../model/task.dart';
 import '../../my_theme.dart';
@@ -22,10 +23,12 @@ class TaskWidget extends StatefulWidget {
 class _TaskWidgetState extends State<TaskWidget> {
   @override
   late AppConfigProvider provider;
+  late UserProvider userProvider;
 
   bool istaskDone = false;
 
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     provider = Provider.of<AppConfigProvider>(context);
     return Padding(
       padding: EdgeInsets.only(top: 15),
@@ -75,7 +78,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             child: Container(
               decoration: BoxDecoration(
                   color:
-                      provider.isDarkMode() ? MyTheme.blackColor : Colors.white,
+                  provider.isDarkMode() ? MyTheme.blackColor : Colors.white,
                   borderRadius: BorderRadius.circular(7)),
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.15,
@@ -100,9 +103,9 @@ class _TaskWidgetState extends State<TaskWidget> {
                           widget.task.title ?? '',
                           style: istaskDone == true
                               ? Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: Colors.green)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Colors.green)
                               : Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(widget.task.description ?? '',
@@ -141,7 +144,9 @@ class _TaskWidgetState extends State<TaskWidget> {
   }
 
   void deleteTaskWidget() {
-    FirebaseUtils.deleteTaskFromFireStore(widget.task).then(
+    FirebaseUtils.deleteTaskFromFireStore(
+            widget.task, userProvider.currentUser!.id!)
+        .then(
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyTheme.primaryColor,
@@ -150,7 +155,7 @@ class _TaskWidgetState extends State<TaskWidget> {
               AppLocalizations.of(context)!.task_deleted_successfully,
               style: Theme.of(context).textTheme.bodyLarge,
             ))));
-        provider.getAllTasksFromFireStore();
+        provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
       },
     );
   }

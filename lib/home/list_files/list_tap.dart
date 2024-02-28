@@ -5,6 +5,7 @@ import 'package:todo_app/home/list_files/date_widget.dart';
 import 'package:todo_app/home/list_files/task_widget.dart';
 
 import '../../providers/app_config_provider.dart';
+import '../../providers/user_provider.dart';
 
 class ListTap extends StatefulWidget {
   @override
@@ -15,9 +16,10 @@ class _ListTapState extends State<ListTap> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     if (provider.taskList.isEmpty) {
-      provider.getAllTasksFromFireStore();
+      provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

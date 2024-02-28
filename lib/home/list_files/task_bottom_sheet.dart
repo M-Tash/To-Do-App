@@ -6,6 +6,7 @@ import 'package:todo_app/firebase_utils.dart';
 import '../../../my_theme.dart';
 import '../../../providers/app_config_provider.dart';
 import '../../model/task.dart';
+import '../../providers/user_provider.dart';
 
 class TaskBottomSheet extends StatefulWidget {
   @override
@@ -19,8 +20,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   String title = '';
   String description = '';
   late AppConfigProvider provider;
+  late UserProvider userProvider;
 
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     provider = Provider.of<AppConfigProvider>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
@@ -37,9 +40,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             children: [
               Center(
                   child: Text(
-                AppLocalizations.of(context)!.add_new_task,
-                style: Theme.of(context).textTheme.labelLarge,
-              )),
+                    AppLocalizations.of(context)!.add_new_task,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  )),
               SizedBox(
                 height: 20,
               ),
@@ -152,7 +155,8 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     if (_formKey.currentState!.validate()) {
       Task task =
           Task(title: title, description: description, dateTime: selectedDate);
-      FirebaseUtils.addTaskToFireStore(task).then(
+      FirebaseUtils.addTaskToFireStore(task, userProvider.currentUser!.id!)
+          .then(
         (value) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: MyTheme.primaryColor,
@@ -161,7 +165,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 AppLocalizations.of(context)!.task_added_successfully,
                 style: Theme.of(context).textTheme.bodyLarge,
               ))));
-          provider.getAllTasksFromFireStore();
+          provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
           Navigator.pop(context);
         },
       );

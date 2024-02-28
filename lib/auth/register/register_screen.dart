@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/auth/register/custom_text_form_field.dart';
+import 'package:todo_app/dialog_utils.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home_screen.dart';
+import 'package:todo_app/model/my_user.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
+import 'package:todo_app/providers/user_provider.dart';
 
 import '../../my_theme.dart';
 
@@ -88,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 CustomTextFormField(
                                   obscureText: false,
                                   label:
-                                      AppLocalizations.of(context)!.email_label,
+                                  AppLocalizations.of(context)!.email_label,
                                   controller: emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (text) {
@@ -98,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     }
 
                                     bool emailValid = RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                         .hasMatch(text);
                                     if (!emailValid) {
                                       return AppLocalizations.of(context)!
@@ -143,104 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   },
                                 ),
-                                // TextFormField(
-                                //   style:
-                                //       Theme.of(context).textTheme.displaySmall,
-                                //   onChanged: (text) {
-                                //     firstName = text;
-                                //   },
-                                //   validator: (value) {
-                                //     if (value == null || value.isEmpty) {
-                                //       return AppLocalizations.of(context)!
-                                //           .first_name_error;
-                                //     }
-                                //     return null;
-                                //   },
-                                //   decoration: InputDecoration(
-                                //       enabledBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.primaryColor),
-                                //       ),
-                                //       focusedBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.primaryColor),
-                                //       ),
-                                //       hintText: AppLocalizations.of(context)!
-                                //           .first_name_hint,
-                                //       hintStyle: Theme.of(context)
-                                //           .textTheme
-                                //           .labelMedium),
-                                // ),
-                                //
-                                // TextFormField(
-                                //   style:
-                                //       Theme.of(context).textTheme.displaySmall,
-                                //   onChanged: (text) {
-                                //     email = text;
-                                //   },
-                                //   validator: (text) =>
-                                //       EmailValidator.validate(email)
-                                //           ? null
-                                //           : AppLocalizations.of(context)!
-                                //               .error_email,
-                                //   decoration: InputDecoration(
-                                //       enabledBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.primaryColor),
-                                //       ),
-                                //       focusedBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.primaryColor),
-                                //       ),
-                                //       hintText: AppLocalizations.of(context)!
-                                //           .email_hint,
-                                //       hintStyle: Theme.of(context)
-                                //           .textTheme
-                                //           .labelMedium),
-                                // ),
-                                //
-                                // TextFormField(
-                                //   obscureText: !passwordVisible,
-                                //   style:
-                                //       Theme.of(context).textTheme.displaySmall,
-                                //   onChanged: (text) {
-                                //     password = text;
-                                //   },
-                                //   validator: (value) {
-                                //     if (value == null || value.isEmpty) {
-                                //       return AppLocalizations.of(context)!
-                                //           .error_password;
-                                //     }
-                                //     return null;
-                                //   },
-                                //   decoration: InputDecoration(
-                                //       suffixIcon: IconButton(
-                                //         onPressed: () {
-                                //           setState(() {
-                                //             passwordVisible = !passwordVisible;
-                                //           });
-                                //         },
-                                //         icon: Icon(
-                                //           passwordVisible
-                                //               ? Icons.visibility
-                                //               : Icons.visibility_off,
-                                //           color: MyTheme.loginColor,
-                                //         ),
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.loginColor),
-                                //       ),
-                                //       focusedBorder: UnderlineInputBorder(
-                                //         borderSide: BorderSide(
-                                //             color: MyTheme.loginColor),
-                                //       ),
-                                //       hintText: AppLocalizations.of(context)!
-                                //           .password_hint,
-                                //       hintStyle: Theme.of(context)
-                                //           .textTheme
-                                //           .labelMedium),
-                                // ),
                               ],
                             ),
                           ),
@@ -251,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
-                      validate();
+                      register();
                     },
                     child: Container(
                       height: 55,
@@ -268,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                           borderRadius: BorderRadius.circular(10),
                           color: provider.isDarkMode()
-                              ? MyTheme.loginColor
+                              ? MyTheme.primaryColor
                               : Colors.white),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -280,11 +187,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    color: provider.isDarkMode()
-                                        ? MyTheme.blackColor
-                                        : MyTheme.greyColor),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: provider.isDarkMode()
+                                    ? MyTheme.blackColor
+                                    : MyTheme.greyColor),
                           ),
                           Spacer(),
                           Padding(
@@ -308,9 +215,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void validate() {
+  void register() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, HomeScreen.routeName);
+      DialogUtils.showLoading(
+          context: context, message: 'Loading...', isDismissible: false);
+
+      try {
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        MyUser myUser = MyUser(
+            id: credential.user?.uid ?? '',
+            name: nameController.text,
+            email: emailController.text);
+        await FirebaseUtils.addUserToFireStore(myUser);
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(myUser);
+
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showSnackBar(
+            context: context, message: 'You have successfully registered');
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showSnackBar(
+              context: context, message: 'The password provided is too weak');
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showSnackBar(
+              context: context,
+              message: 'The account already exists for that email');
+          print('The account already exists for that email.');
+        }
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showSnackBar(context: context, message: e.toString());
+        print(e);
+      }
     }
   }
 }

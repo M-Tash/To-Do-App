@@ -5,6 +5,8 @@ import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/my_theme.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
+import '../../providers/user_provider.dart';
+
 class TaskScreen extends StatefulWidget {
   static const String routeName = 'TaskScreen';
 
@@ -20,9 +22,11 @@ class _TaskScreenState extends State<TaskScreen> {
   String newTitle = '';
   String newDescription = '';
   late AppConfigProvider provider;
+  late UserProvider userProvider;
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     provider = Provider.of<AppConfigProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments as Arguments;
     return Scaffold(
@@ -139,13 +143,14 @@ class _TaskScreenState extends State<TaskScreen> {
                           backgroundColor: MyTheme.primaryColor),
                       onPressed: () {
                         FirebaseUtils.updateTaskInFireStore(
+                            uId: userProvider.currentUser!.id!,
                                 id: args.id,
                                 newTitle: newTitle,
                                 newDescription: newDescription,
                                 newDate: selectedDate,
                                 newIsDone: args.isDone)
                             .then(
-                          (value) {
+                              (value) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 backgroundColor: MyTheme.primaryColor,
                                 content: Center(
@@ -154,7 +159,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                       .task_edited_successfully,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ))));
-                            provider.getAllTasksFromFireStore();
+                            provider.getAllTasksFromFireStore(
+                                userProvider.currentUser!.id!);
                             Navigator.pop(context);
                           },
                         );

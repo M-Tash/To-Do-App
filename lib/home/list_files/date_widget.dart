@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/my_theme.dart';
 
 import '../../providers/app_config_provider.dart';
+import '../../providers/user_provider.dart';
 
 class DateWidget extends StatelessWidget {
   @override
@@ -33,6 +34,8 @@ class _EasyInfiniteDateTimeLineExampleState
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
+
     var provider = Provider.of<AppConfigProvider>(context);
     return Column(
       children: [
@@ -51,7 +54,7 @@ class _EasyInfiniteDateTimeLineExampleState
                           : Colors.white,
                       borderRadius: BorderRadius.circular(20),
                       border:
-                          Border.all(color: MyTheme.primaryColor, width: 2)),
+                      Border.all(color: MyTheme.primaryColor, width: 2)),
                   dayNumStyle: Theme.of(context).textTheme.titleSmall,
                   dayStrStyle: Theme.of(context).textTheme.displaySmall,
                   monthStrStyle: Theme.of(context).textTheme.displaySmall),
@@ -73,7 +76,8 @@ class _EasyInfiniteDateTimeLineExampleState
           lastDate: DateTime(2026, 12, 31),
           onDateChange: (selectedDate) {
             setState(() {
-              provider.changeSelectedDate(selectedDate);
+              provider.changeSelectedDate(
+                  selectedDate, userProvider.currentUser!.id!);
             });
           },
         ),

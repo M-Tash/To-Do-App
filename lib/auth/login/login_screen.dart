@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/auth/register/register_screen.dart';
+import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
+import '../../dialog_utils.dart';
 import '../../my_theme.dart';
+import '../../providers/user_provider.dart';
 import '../register/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -59,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(AppLocalizations.of(context)!.welcome_back,
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 15, top: 40),
@@ -82,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
 
                                 bool emailValid = RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(text);
                                 if (!emailValid) {
                                   return AppLocalizations.of(context)!
@@ -95,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             CustomTextFormField(
                               icon: true,
                               label:
-                                  AppLocalizations.of(context)!.password_label,
+                              AppLocalizations.of(context)!.password_label,
                               controller: passwordController,
                               validator: (text) {
                                 if (text == null || text.trim().isEmpty) {
@@ -132,16 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, HomeScreen.routeName);
-                      }
+                      login();
                     },
                     child: Container(
                       height: 55,
                       width: 334,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: MyTheme.loginColor),
+                          color: MyTheme.primaryColor),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -190,5 +192,43 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
+  }
+
+  void login() async {
+    if (_formKey.currentState!.validate()) {
+      DialogUtils.showLoading(
+          context: context, message: 'Loading...', isDismissible: false);
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailController.text, password: passwordController.text);
+        var user = await FirebaseUtils.readUserFromFireStore(
+            credential.user?.uid ?? '');
+        if (user == null) {
+          return;
+        }
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(user);
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showSnackBar(context: context, message: 'login successful');
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'Invalid Credential') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showSnackBar(
+              context: context, message: 'Invalid Credential');
+          print(
+              'The supplied auth credential is incorrect, malformed or has expired');
+        } else if (e.code == 'wrong-password') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showSnackBar(context: context, message: 'Wrong password');
+          print('Wrong password provided for that user.');
+        }
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showSnackBar(context: context, message: e.toString());
+        print(e.toString());
+      }
+    }
   }
 }

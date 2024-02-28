@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static Color primaryColor = Color(0xff5D9CEC);
-  static Color loginColor = Color(0xff3598DB);
+  static Color primaryColor = Color(0xff3598DB);
   static Color primaryDarkColor = Color(0xff060E1E);
   static Color blackColor = Color(0xff141922);
   static Color greyColor = Color(0xffC8C9CB);

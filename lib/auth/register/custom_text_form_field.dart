@@ -41,7 +41,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   },
                   icon: Icon(
                     passwordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: MyTheme.loginColor,
+                    color: MyTheme.primaryColor,
                   ),
                 )
               : null,
