@@ -25,7 +25,7 @@ class _TaskWidgetState extends State<TaskWidget> {
   late AppConfigProvider provider;
   late UserProvider userProvider;
 
-  bool istaskDone = false;
+  bool isTaskDone = false;
 
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
@@ -87,7 +87,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                   Container(
                     margin: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: istaskDone == true
+                        color: widget.task.isDone == true
                             ? Colors.green
                             : MyTheme.primaryColor,
                         borderRadius: BorderRadius.circular(15)),
@@ -101,11 +101,11 @@ class _TaskWidgetState extends State<TaskWidget> {
                       children: [
                         Text(
                           widget.task.title ?? '',
-                          style: istaskDone == true
+                          style: widget.task.isDone == true
                               ? Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.green)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: Colors.green)
                               : Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(widget.task.description ?? '',
@@ -116,7 +116,8 @@ class _TaskWidgetState extends State<TaskWidget> {
                   Spacer(),
                   InkWell(
                       onTap: () {
-                        istaskDone = true;
+                        widget.task.isDone = true;
+                        updateTaskWidget();
                         setState(() {});
                       },
                       child: Container(
@@ -125,7 +126,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                         height: MediaQuery.of(context).size.height * 0.045,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: istaskDone == true
+                            color: widget.task.isDone == true
                                 ? Colors.green
                                 : MyTheme.primaryColor),
                         child: Icon(
@@ -158,5 +159,15 @@ class _TaskWidgetState extends State<TaskWidget> {
         provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
       },
     );
+  }
+
+  void updateTaskWidget() {
+    FirebaseUtils.updateTaskInFireStore(
+        uId: userProvider.currentUser!.id!,
+        id: widget.task.id ?? '',
+        newTitle: widget.task.title ?? '',
+        newDescription: widget.task.description ?? '',
+        newIsDone: widget.task.isDone,
+        newDate: widget.task.dateTime!);
   }
 }

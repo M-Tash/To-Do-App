@@ -107,7 +107,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 child: InkWell(
                   onTap: showCalendar,
                   child: Text(
-                    "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                    "${provider.selectedDate.day}/${provider.selectedDate.month}/${provider.selectedDate.year}",
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
@@ -142,19 +142,21 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   void showCalendar() async {
     var chosenDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: provider.selectedDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 365)));
     if (chosenDate != null) {
-      selectedDate = chosenDate;
+      provider.selectedDate = chosenDate;
       setState(() {});
     }
   }
 
   void addTask() {
     if (_formKey.currentState!.validate()) {
-      Task task =
-          Task(title: title, description: description, dateTime: selectedDate);
+      Task task = Task(
+          title: title,
+          description: description,
+          dateTime: provider.selectedDate);
       FirebaseUtils.addTaskToFireStore(task, userProvider.currentUser!.id!)
           .then(
         (value) {

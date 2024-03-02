@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../firebase_utils.dart';
 import '../model/task.dart';
@@ -15,6 +16,7 @@ class AppConfigProvider extends ChangeNotifier {
       return;
     }
     appLanguage = newLanguage;
+    saveLanguage();
     notifyListeners();
   }
 
@@ -23,11 +25,41 @@ class AppConfigProvider extends ChangeNotifier {
       return;
     }
     appTheme = newMode;
+    saveTheme();
     notifyListeners();
   }
 
   bool isDarkMode() {
     return appTheme == ThemeMode.dark;
+  }
+
+  saveLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('language', appLanguage);
+    prefs.reload();
+    notifyListeners();
+  }
+
+  loadLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    appLanguage = prefs.getString('language') ?? 'en';
+    notifyListeners();
+  }
+
+  saveTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('theme', appTheme.index);
+    prefs.reload();
+    notifyListeners();
+  }
+
+  loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? themeIndex = prefs.getInt('theme');
+    if (themeIndex != null) {
+      appTheme = ThemeMode.values[themeIndex];
+    }
+    notifyListeners();
   }
 
   void getAllTasksFromFireStore(String uId) async {

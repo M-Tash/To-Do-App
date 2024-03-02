@@ -28,10 +28,10 @@ class FirebaseUtils {
 
   static Future<void> updateTaskInFireStore(
       {required String? id,
-      required String newTitle,
-      required String newDescription,
+      String? newTitle = '',
+      String? newDescription = '',
       required DateTime newDate,
-      required bool? newIsDone,
+      bool? newIsDone = false,
       required String uId}) async {
     await getTasksCollection(uId).doc(id).update({
       'title': newTitle,

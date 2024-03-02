@@ -32,11 +32,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
+    provider.loadLanguage();
+    provider.loadTheme();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: LoginScreen.routeName,

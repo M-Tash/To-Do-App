@@ -217,11 +217,11 @@ class _LoginScreenState extends State<LoginScreen> {
             message: AppLocalizations.of(context)!.login_successful);
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'Invalid Credential') {
+        if (e.code == 'user-not-found') {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showSnackBar(
               context: context,
-              message: AppLocalizations.of(context)!.invalid_credential);
+              message: AppLocalizations.of(context)!.wrong_email);
           print(
               'The supplied auth credential is incorrect, malformed or has expired');
         } else if (e.code == 'wrong-password') {

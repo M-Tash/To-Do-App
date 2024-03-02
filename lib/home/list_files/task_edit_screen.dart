@@ -16,11 +16,10 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   final _formKey = GlobalKey<FormState>();
-  var selectedDate = DateTime.now();
-  String title = '';
-  String description = '';
-  String newTitle = '';
-  String newDescription = '';
+  DateTime selectedDate = DateTime.now();
+  var title = '';
+  var description = '';
+
   late AppConfigProvider provider;
   late UserProvider userProvider;
 
@@ -65,7 +64,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   TextFormField(
                     initialValue: args.title,
                     onChanged: (text) {
-                      newTitle = text;
+                      title = text;
                     },
                     style: Theme.of(context).textTheme.displaySmall,
                     validator: (value) {
@@ -90,7 +89,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   TextFormField(
                     initialValue: args.description,
                     onChanged: (text) {
-                      newDescription = text;
+                      description = text;
                     },
                     style: Theme.of(context).textTheme.displaySmall,
                     maxLines: 2,
@@ -126,7 +125,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     child: InkWell(
                       onTap: showCalendar,
                       child: Text(
-                        "${args.selectedDate?.day}/${args.selectedDate?.month}/${args.selectedDate?.year}",
+                        "${provider.selectedDate.day}/${provider.selectedDate.month}/${provider.selectedDate.year}",
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
@@ -142,23 +141,30 @@ class _TaskScreenState extends State<TaskScreen> {
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor: MyTheme.primaryColor),
                       onPressed: () {
+                        if (title.isEmpty) {
+                          title = args.title.toString();
+                        }
+                        if (description.isEmpty) {
+                          description = args.description.toString();
+                        }
+
                         FirebaseUtils.updateTaskInFireStore(
-                            uId: userProvider.currentUser!.id!,
+                                uId: userProvider.currentUser!.id!,
                                 id: args.id,
-                                newTitle: newTitle,
-                                newDescription: newDescription,
-                                newDate: selectedDate,
+                                newTitle: title,
+                                newDescription: description,
+                                newDate: provider.selectedDate,
                                 newIsDone: args.isDone)
                             .then(
-                              (value) {
+                          (value) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 backgroundColor: MyTheme.primaryColor,
                                 content: Center(
                                     child: Text(
-                                  AppLocalizations.of(context)!
-                                      .task_edited_successfully,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ))));
+                                      AppLocalizations.of(context)!
+                                          .task_edited_successfully,
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ))));
                             provider.getAllTasksFromFireStore(
                                 userProvider.currentUser!.id!);
                             Navigator.pop(context);
@@ -184,11 +190,11 @@ class _TaskScreenState extends State<TaskScreen> {
   void showCalendar() async {
     var chosenDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: provider.selectedDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 365)));
     if (chosenDate != null) {
-      selectedDate = chosenDate;
+      provider.selectedDate = chosenDate;
       setState(() {});
     }
   }

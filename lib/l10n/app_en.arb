@@ -46,5 +46,5 @@
   "wrong_password": "Wrong password",
   "password_too_weak": "The password is too weak",
   "account_already_exists": "The account already exists",
-  "invalid_credential": "Incorrect Email Or Password"
+  "wrong_email": "Incorrect Email"
 }

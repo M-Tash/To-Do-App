@@ -19,9 +19,9 @@ class Task {
 
   Task.fromFireStore(Map<String, dynamic> data)
       : this(
-          id: data['id'],
-          title: data['title'],
-          description: data['description'],
+          id: data['id'] as String,
+          title: data['title'] as String,
+          description: data['description'] as String,
           dateTime: DateTime.fromMillisecondsSinceEpoch(data['dateTime']),
           isDone: data['isDone'],
         );
