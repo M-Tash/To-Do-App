@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/auth/register/custom_text_form_field.dart';
 import 'package:todo_app/dialog_utils.dart';
 import 'package:todo_app/firebase_utils.dart';
-import 'package:todo_app/home_screen.dart';
+import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/model/my_user.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:todo_app/providers/user_provider.dart';
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 CustomTextFormField(
                                   obscureText: false,
                                   label:
-                                  AppLocalizations.of(context)!.email_label,
+                                      AppLocalizations.of(context)!.email_label,
                                   controller: emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (text) {
@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     }
 
                                     bool emailValid = RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                         .hasMatch(text);
                                     if (!emailValid) {
                                       return AppLocalizations.of(context)!
@@ -187,11 +187,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: provider.isDarkMode()
-                                    ? MyTheme.blackColor
-                                    : MyTheme.greyColor),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                    color: provider.isDarkMode()
+                                        ? MyTheme.blackColor
+                                        : MyTheme.greyColor),
                           ),
                           Spacer(),
                           Padding(

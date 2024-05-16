@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/auth/register/register_screen.dart';
 import 'package:todo_app/firebase_utils.dart';
-import 'package:todo_app/home_screen.dart';
+import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
 import '../../dialog_utils.dart';
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(AppLocalizations.of(context)!.welcome_back,
                       style:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 15, top: 40),
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
 
                                 bool emailValid = RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(text);
                                 if (!emailValid) {
                                   return AppLocalizations.of(context)!
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             CustomTextFormField(
                               icon: true,
                               label:
-                              AppLocalizations.of(context)!.password_label,
+                                  AppLocalizations.of(context)!.password_label,
                               controller: passwordController,
                               validator: (text) {
                                 if (text == null || text.trim().isEmpty) {
@@ -118,19 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     )),
                 SizedBox(height: 30),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Text(
-                      AppLocalizations.of(context)!.forgot_password,
-                      style: Theme.of(context)
-                          .textTheme
-                          .displaySmall!
-                          .copyWith(fontSize: 14),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 30),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),

@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/home/list_files/date_widget.dart';
 import 'package:todo_app/home/list_files/task_widget.dart';
@@ -13,29 +13,41 @@ class ListTap extends StatefulWidget {
 }
 
 class _ListTapState extends State<ListTap> {
+  bool isLoading = true;
+
+  @override
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
     var userProvider = Provider.of<UserProvider>(context);
+    getUserId(provider, userProvider);
 
-    if (provider.taskList.isEmpty) {
-      provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DateWidget(),
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return TaskWidget(
-                task: provider.taskList[index],
-              );
-            },
-            itemCount: provider.taskList.length,
-          ),
-        )
-      ],
+    return ModalProgressHUD(
+      blur: 0.8,
+      color: Colors.transparent,
+      progressIndicator: const CircularProgressIndicator(color: Colors.white),
+      inAsyncCall: isLoading,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DateWidget(),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return TaskWidget(
+                  task: provider.taskList[index],
+                );
+              },
+              itemCount: provider.taskList.length,
+            ),
+          )
+        ],
+      ),
     );
+  }
+
+  void getUserId(AppConfigProvider provider, UserProvider userProvider) {
+    provider.getAllTasksFromFireStore(userProvider.currentUser!.id!);
+    isLoading = false;
   }
 }
