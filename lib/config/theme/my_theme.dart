@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static Color primaryColor = Color(0xff3598DB);
-  static Color primaryDarkColor = Color(0xff060E1E);
-  static Color blackColor = Color(0xff141922);
-  static Color greyColor = Color(0xffC8C9CB);
-  static Color darkGreyColor = Color(0xff707070);
-  static Color greenColor = Color(0xff61E757);
-  static Color redColor = Color(0xffEC4B4B);
-  static Color backgroundColor = Color(0xffDFECDB);
+  static Color primaryColor = const Color(0xff3598DB);
+  static Color primaryDarkColor = const Color(0xff060E1E);
+  static Color blackColor = const Color(0xff141922);
+  static Color greyColor = const Color(0xffC8C9CB);
+  static Color darkGreyColor = const Color(0xff707070);
+  static Color greenColor = const Color(0xff61E757);
+  static Color redColor = const Color(0xffEC4B4B);
+  static Color backgroundColor = const Color(0xffDFECDB);
 
   static ThemeData lightMode = ThemeData(
+      colorScheme: ColorScheme.light(primary: primaryColor),
       primaryColor: primaryColor,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: primaryColor,
@@ -20,8 +21,8 @@ class MyTheme {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,
-        shape: StadiumBorder(
-          side: BorderSide(
+          shape: const StadiumBorder(
+              side: BorderSide(
             color: Colors.white,
             width: 3,
               strokeAlign: 2
@@ -32,10 +33,10 @@ class MyTheme {
       appBarTheme: AppBarTheme(
           backgroundColor: primaryColor,
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.grey),
-            ),
+        iconTheme: const IconThemeData(color: Colors.grey),
+      ),
       textTheme: TextTheme(
-        titleLarge: TextStyle(
+        titleLarge: const TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -80,13 +81,14 @@ class MyTheme {
           fontWeight: FontWeight.bold,
           color: greyColor,
         ),
-        bodyLarge: TextStyle(
+        bodyLarge: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ));
   static ThemeData darkMode = ThemeData(
+      colorScheme: ColorScheme.dark(primary: primaryColor),
       primaryColor: primaryColor,
       bottomNavigationBarTheme:
       BottomNavigationBarThemeData(
@@ -108,8 +110,8 @@ class MyTheme {
       appBarTheme: AppBarTheme(
           backgroundColor: primaryColor,
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
-          ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       textTheme: TextTheme(
         titleLarge: TextStyle(
           fontSize: 22,
@@ -121,12 +123,12 @@ class MyTheme {
           fontWeight: FontWeight.bold,
           color: primaryColor,
         ),
-        titleSmall: TextStyle(
+        titleSmall: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        displaySmall: TextStyle(
+        displaySmall: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
           color: Colors.white,
@@ -136,17 +138,17 @@ class MyTheme {
           fontWeight: FontWeight.w600,
           color: primaryColor,
         ),
-        bodyMedium: TextStyle(
+        bodyMedium: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        labelSmall: TextStyle(
+        labelSmall: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w500,
           color: Colors.white,
         ),
-        labelLarge: TextStyle(
+        labelLarge: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -156,7 +158,7 @@ class MyTheme {
           fontWeight: FontWeight.bold,
           color: greyColor,
         ),
-        bodyLarge: TextStyle(
+        bodyLarge: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           color: Colors.white,

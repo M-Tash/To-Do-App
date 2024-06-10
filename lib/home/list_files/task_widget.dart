@@ -108,8 +108,17 @@ class _TaskWidgetState extends State<TaskWidget> {
                                   .copyWith(color: Colors.green)
                               : Theme.of(context).textTheme.titleMedium,
                         ),
-                        Text(widget.task.description ?? '',
-                            style: Theme.of(context).textTheme.labelSmall),
+                        SizedBox(
+                          width: 160,
+                          child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            text: TextSpan(
+                              text: widget.task.description ?? '',
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
