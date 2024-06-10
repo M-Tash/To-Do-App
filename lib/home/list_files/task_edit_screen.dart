@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/firebase_utils.dart';
-import 'package:todo_app/my_theme.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
+import '../../config/theme/my_theme.dart';
 import '../../providers/user_provider.dart';
 
 class TaskScreen extends StatefulWidget {
   static const String routeName = 'TaskScreen';
+
+  const TaskScreen({super.key});
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -47,7 +49,7 @@ class _TaskScreenState extends State<TaskScreen> {
               borderRadius: BorderRadius.circular(20),
               color: provider.isDarkMode() ? MyTheme.blackColor : Colors.white),
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -58,7 +60,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         AppLocalizations.of(context)!.edit_task,
                         style: Theme.of(context).textTheme.labelLarge,
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
@@ -74,16 +76,16 @@ class _TaskScreenState extends State<TaskScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                         hintText: AppLocalizations.of(context)!.task_title_hint,
                         hintStyle: Theme.of(context).textTheme.labelMedium),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormField(
@@ -100,25 +102,25 @@ class _TaskScreenState extends State<TaskScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 20),
-                        enabledBorder: UnderlineInputBorder(
+                        contentPadding: const EdgeInsets.only(bottom: 20),
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                         hintText:
                         AppLocalizations.of(context)!.task_details_hint,
                         hintStyle: Theme.of(context).textTheme.labelMedium),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 35,
                   ),
                   Text(
                     AppLocalizations.of(context)!.select_time,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Center(
@@ -130,11 +132,11 @@ class _TaskScreenState extends State<TaskScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 80),
+                    padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -192,7 +194,7 @@ class _TaskScreenState extends State<TaskScreen> {
         context: context,
         initialDate: provider.selectedDate,
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 365)));
+        lastDate: DateTime.now().add(const Duration(days: 365)));
     if (chosenDate != null) {
       provider.selectedDate = chosenDate;
       setState(() {});

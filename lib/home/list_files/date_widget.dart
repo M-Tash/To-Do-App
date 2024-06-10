@@ -2,15 +2,17 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/my_theme.dart';
 
+import '../../config/theme/my_theme.dart';
 import '../../providers/app_config_provider.dart';
 import '../../providers/user_provider.dart';
 
 class DateWidget extends StatelessWidget {
+  const DateWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         EasyInfiniteDateTimeLineExample(),
       ]),

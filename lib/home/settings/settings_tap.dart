@@ -3,11 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/home/settings/theme_bottom_sheet.dart';
 
-import '../../my_theme.dart';
+import '../../config/theme/my_theme.dart';
 import '../../providers/app_config_provider.dart';
 import 'language_bottom_sheet.dart';
 
 class SettingsTap extends StatefulWidget {
+  const SettingsTap({super.key});
+
   @override
   State<SettingsTap> createState() => _SettingsTapState();
 }
@@ -19,7 +21,7 @@ class _SettingsTapState extends State<SettingsTap> {
     return Container(
         color: Colors.transparent,
         child: Padding(
-          padding:  EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -27,12 +29,12 @@ class _SettingsTapState extends State<SettingsTap> {
                 AppLocalizations.of(context)!.language,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               InkWell(
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),border: Border.all(color: MyTheme.primaryColor,width: 2),
                       color: provider.isDarkMode()?
@@ -59,19 +61,19 @@ class _SettingsTapState extends State<SettingsTap> {
                   showLanguageBottomSheet();
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 AppLocalizations.of(context)!.theme,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               InkWell(
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(border: Border.all(color: MyTheme.primaryColor,width: 2),
                       borderRadius: BorderRadius.circular(10),
                       color: provider.isDarkMode()?
@@ -97,7 +99,7 @@ class _SettingsTapState extends State<SettingsTap> {
                   showThemeBottomSheet();
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -108,7 +110,7 @@ class _SettingsTapState extends State<SettingsTap> {
   void showLanguageBottomSheet() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => LanguageBottomSheet(),
+      builder: (context) => const LanguageBottomSheet(),
     );
   }
 

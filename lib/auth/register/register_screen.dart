@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/auth/register/custom_text_form_field.dart';
-import 'package:todo_app/dialog_utils.dart';
+import 'package:todo_app/config/dialog_utils.dart';
 import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/model/my_user.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:todo_app/providers/user_provider.dart';
 
-import '../../my_theme.dart';
+import '../../config/theme/my_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'create_account_screen';
@@ -20,13 +20,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  @override
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
 
@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(180),
+            preferredSize: const Size.fromHeight(180),
             child: AppBar(
               centerTitle: true,
               iconTheme: IconThemeData(
@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.only(left: 5, right: 10),
+            padding: const EdgeInsets.only(left: 5, right: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -68,11 +68,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 15, top: 0),
+                        padding: const EdgeInsets.only(left: 15, top: 0),
                         child: Form(
                           key: _formKey,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 5, right: 20),
+                            padding: const EdgeInsets.only(left: 5, right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CustomTextFormField(
                                   obscureText: false,
                                   label:
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CustomTextFormField(
                                   icon: true,
                                   label: AppLocalizations.of(context)!
@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CustomTextFormField(
                                   icon: true,
                                   label: AppLocalizations.of(context)!
@@ -155,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
                       register();
@@ -180,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(width: 40),
+                          const SizedBox(width: 40),
                           Text(
                             AppLocalizations.of(context)!.create_new_account,
                             style: Theme.of(context)
@@ -193,9 +193,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? MyTheme.blackColor
                                         : MyTheme.greyColor),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Padding(
-                            padding: EdgeInsets.only(right: 30),
+                            padding: const EdgeInsets.only(right: 30),
                             child: Icon(Icons.arrow_forward,
                                 size: 30,
                                 color: provider.isDarkMode()

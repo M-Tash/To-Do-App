@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/my_theme.dart';
+import 'package:todo_app/config/theme/my_theme.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
 class DialogUtils {
@@ -20,7 +20,7 @@ class DialogUtils {
             content: Row(
               children: [
                 CircularProgressIndicator(color: MyTheme.primaryColor),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 Text(message)

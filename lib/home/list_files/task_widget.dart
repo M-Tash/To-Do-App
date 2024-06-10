@@ -7,38 +7,38 @@ import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home/list_files/task_edit_screen.dart';
 import 'package:todo_app/providers/user_provider.dart';
 
+import '../../config/theme/my_theme.dart';
 import '../../model/task.dart';
-import '../../my_theme.dart';
 import '../../providers/app_config_provider.dart';
 
 class TaskWidget extends StatefulWidget {
   Task task;
 
-  TaskWidget({required this.task});
+  TaskWidget({super.key, required this.task});
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
-  @override
   late AppConfigProvider provider;
   late UserProvider userProvider;
 
   bool isTaskDone = false;
 
+  @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
     provider = Provider.of<AppConfigProvider>(context);
     return Padding(
-      padding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Slidable(
             startActionPane: ActionPane(
               extentRatio: 0.3,
-              motion: ScrollMotion(),
+              motion: const ScrollMotion(),
               children: [
                 SlidableAction(
                   onPressed: (context) {
@@ -55,7 +55,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
             endActionPane: ActionPane(
               extentRatio: 0.3,
-              motion: ScrollMotion(),
+              motion: const ScrollMotion(),
               children: [
                 SlidableAction(
                   onPressed: (context) {
@@ -85,7 +85,7 @@ class _TaskWidgetState extends State<TaskWidget> {
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         color: widget.task.isDone == true
                             ? Colors.green
@@ -95,7 +95,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -113,7 +113,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                       onTap: () {
                         widget.task.isDone = true;
@@ -121,7 +121,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                         setState(() {});
                       },
                       child: Container(
-                        margin: EdgeInsets.all(40),
+                        margin: const EdgeInsets.all(40),
                         width: MediaQuery.of(context).size.width * 0.17,
                         height: MediaQuery.of(context).size.height * 0.045,
                         decoration: BoxDecoration(
@@ -129,7 +129,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             color: widget.task.isDone == true
                                 ? Colors.green
                                 : MyTheme.primaryColor),
-                        child: Icon(
+                        child: const Icon(
                           CupertinoIcons.checkmark_alt,
                           color: Colors.white,
                           size: 35,

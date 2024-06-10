@@ -7,24 +7,26 @@ import 'package:todo_app/firebase_utils.dart';
 import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 
-import '../../dialog_utils.dart';
-import '../../my_theme.dart';
+import '../../config/dialog_utils.dart';
+import '../../config/theme/my_theme.dart';
 import '../../providers/user_provider.dart';
 import '../register/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login_screen';
 
+  const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  @override
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
 
@@ -42,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(220),
+            preferredSize: const Size.fromHeight(220),
             child: AppBar(
               automaticallyImplyLeading: false,
               centerTitle: true,
@@ -55,22 +57,22 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.only(left: 5, right: 10),
+            padding: const EdgeInsets.only(left: 5, right: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(AppLocalizations.of(context)!.welcome_back,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
-                    padding: EdgeInsets.only(left: 15, top: 40),
+                    padding: const EdgeInsets.only(left: 15, top: 40),
                     child: Form(
                       key: _formKey,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 20),
+                        padding: const EdgeInsets.only(left: 5, right: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return null;
                               },
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             CustomTextFormField(
                               icon: true,
                               label:
@@ -117,10 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     )),
-                SizedBox(height: 30),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
                       login();
@@ -134,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(width: 40),
+                          const SizedBox(width: 40),
                           Text(
                             AppLocalizations.of(context)!.login,
                             style: Theme.of(context)
@@ -143,9 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .copyWith(
                                     fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Padding(
-                            padding: EdgeInsets.only(right: 30),
+                            padding: const EdgeInsets.only(right: 30),
                             child: Icon(Icons.arrow_forward,
                                 size: 30,
                                 color: provider.isDarkMode()
@@ -157,9 +159,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, RegisterScreen.routeName);

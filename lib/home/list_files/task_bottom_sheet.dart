@@ -3,18 +3,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/firebase_utils.dart';
 
-import '../../../my_theme.dart';
 import '../../../providers/app_config_provider.dart';
+import '../../config/theme/my_theme.dart';
 import '../../model/task.dart';
 import '../../providers/user_provider.dart';
 
 class TaskBottomSheet extends StatefulWidget {
+  const TaskBottomSheet({super.key});
+
   @override
   State<TaskBottomSheet> createState() => _TaskBottomSheetState();
 }
 
 class _TaskBottomSheetState extends State<TaskBottomSheet> {
-  @override
   final _formKey = GlobalKey<FormState>();
   var selectedDate = DateTime.now();
   String title = '';
@@ -22,17 +23,18 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   late AppConfigProvider provider;
   late UserProvider userProvider;
 
+  @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context, listen: false);
     provider = Provider.of<AppConfigProvider>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           color: provider.isDarkMode() ? MyTheme.blackColor : Colors.white),
       child: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -43,7 +45,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                     AppLocalizations.of(context)!.add_new_task,
                     style: Theme.of(context).textTheme.labelLarge,
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextFormField(
@@ -58,16 +60,16 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   return null;
                 },
                 decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     hintText: AppLocalizations.of(context)!.task_title_hint,
                     hintStyle: Theme.of(context).textTheme.labelMedium),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               TextFormField(
@@ -83,24 +85,24 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   return null;
                 },
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 20),
-                    enabledBorder: UnderlineInputBorder(
+                    contentPadding: const EdgeInsets.only(bottom: 20),
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     hintText: AppLocalizations.of(context)!.task_details_hint,
                     hintStyle: Theme.of(context).textTheme.labelMedium),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               Text(
                 AppLocalizations.of(context)!.select_time,
                 style: Theme.of(context).textTheme.labelLarge,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Center(
@@ -112,11 +114,11 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 130),
+                padding: const EdgeInsets.symmetric(horizontal: 130),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -125,7 +127,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                   onPressed: () {
                     addTask();
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.check_sharp,
                     color: Colors.white,
                     size: 35,
@@ -144,7 +146,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         context: context,
         initialDate: provider.selectedDate,
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 365)));
+        lastDate: DateTime.now().add(const Duration(days: 365)));
     if (chosenDate != null) {
       provider.selectedDate = chosenDate;
       setState(() {});

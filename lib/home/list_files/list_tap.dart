@@ -8,6 +8,8 @@ import '../../providers/app_config_provider.dart';
 import '../../providers/user_provider.dart';
 
 class ListTap extends StatefulWidget {
+  const ListTap({super.key});
+
   @override
   State<ListTap> createState() => _ListTapState();
 }
@@ -30,7 +32,7 @@ class _ListTapState extends State<ListTap> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DateWidget(),
+          const DateWidget(),
           Expanded(
             child: ListView.builder(
               itemBuilder: (context, index) {

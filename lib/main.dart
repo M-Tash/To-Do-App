@@ -9,14 +9,14 @@ import 'package:todo_app/home/home_screen.dart';
 import 'package:todo_app/providers/app_config_provider.dart';
 import 'package:todo_app/providers/user_provider.dart';
 
+import 'config/theme/my_theme.dart';
 import 'home/list_files/task_edit_screen.dart';
-import 'my_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings =
-      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+      const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   FirebaseFirestore.instance.enableNetwork();
   runApp(MultiProvider(
     providers: [
@@ -32,6 +32,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
@@ -41,9 +43,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: LoginScreen.routeName,
       routes: {
-        HomeScreen.routeName: (context) => HomeScreen(),
-        TaskScreen.routeName: (context) => TaskScreen(),
-        LoginScreen.routeName: (context) => LoginScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        TaskScreen.routeName: (context) => const TaskScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
       },
       theme: MyTheme.lightMode,

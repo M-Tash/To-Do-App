@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import '../../my_theme.dart';
+
+import '../../config/theme/my_theme.dart';
 import '../../providers/app_config_provider.dart';
 
 class ThemeBottomSheet extends StatefulWidget {
+  const ThemeBottomSheet({super.key});
+
   @override
   State<ThemeBottomSheet> createState() => _ThemeBottomSheetState();
 }
@@ -14,10 +17,11 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
     return Container(height: MediaQuery.of(context).size.height*0.15,
-      decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
-      ,color: MyTheme.primaryColor),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),color: MyTheme.primaryColor),
       child: Padding(
-        padding:  EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -29,7 +33,7 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
                   ? getUnSelectedItemWidget(AppLocalizations.of(context)!.light)
                   : getSelectedItemWidget(AppLocalizations.of(context)!.light),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             InkWell(
               onTap: () {
                 provider.changeTheme(ThemeMode.dark);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../my_theme.dart';
+import '../../config/theme/my_theme.dart';
 
 typedef myValidator = String? Function(String?)?;
 
@@ -13,8 +13,7 @@ class CustomTextFormField extends StatefulWidget {
   bool? obscureText;
 
   @override
-  CustomTextFormField(
-      {required this.label,
+  CustomTextFormField({super.key, required this.label,
       this.keyboardType = TextInputType.text,
       required this.controller,
       required this.validator,
