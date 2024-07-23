@@ -23,6 +23,12 @@ This is a Todo application built with Flutter, utilizing the Provider package fo
 3. Tasks are synced in real-time across devices.
 4. Log out when you're done using the app.
 
+## Demo 
+
+https://github.com/user-attachments/assets/8c92e4d2-13ea-481b-b4ed-483eab3fbd87
+
+
+
 ## Screenshots
  - Light Mode
  <img src="https://github.com/M-Tash/To-Do-App/assets/158067954/1fc4102b-cc6e-4fd6-836b-4bb36badc079" alt="Screenshot 1" width="30%">
